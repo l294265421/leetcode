@@ -11,6 +11,8 @@ public class LeetCode1341 {
 		for (int i = 0; i < len; i++) {
 			array[i] = gas[i] - cost[i];
 		}
+		
+		// 获得最大子序列的信息
 		SubArrayDescription description = MaxSubSum(array);
 		int surplus = description.surplus;
 		if (surplus < 0) {
@@ -28,6 +30,28 @@ public class LeetCode1341 {
 			surplus += array[position];
 			if (surplus < 0) {
 				return -1;
+			}
+		}
+		
+		if (end < start) {
+			for (int i = end + 1; i < start; i++) {
+				surplus += array[i];
+				if (surplus < 0) {
+					return -1;
+				}
+			}
+		} else {
+			for(int i = end + 1; i < len; i++) {
+				surplus += array[i];
+				if (surplus < 0) {
+					return -1;
+				}
+			}
+			for(int i = 0; i < start; i++) {
+				surplus += array[i];
+				if (surplus < 0) {
+					return -1;
+				}
 			}
 		}
 		return start;
