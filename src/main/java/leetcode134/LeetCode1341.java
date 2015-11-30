@@ -2,178 +2,41 @@ package leetcode134;
 
 public class LeetCode1341 {
 	public int canCompleteCircuit(int[] gas, int[] cost) {
+		// 如果所有的油比跑完全程需要的油少，就不能走完全程，
+		// 否则就一定存在一个起点，从这里出发，可以走完全程(有待证明)
 		int len = gas.length;
-		if (len == 0) {
+		int surplusTotal = 0;
+		for(int i = 0; i < len; i++) {
+			surplusTotal += gas[i] - cost[i];
+		}
+		if (surplusTotal < 0) {
 			return -1;
 		}
-
-		int[] array = new int[len];
-		for (int i = 0; i < len; i++) {
-			array[i] = gas[i] - cost[i];
-		}
 		
-		// 获得最大子序列的信息
-		SubArrayDescription description = MaxSubSum(array);
-		int surplus = description.surplus;
-		if (surplus < 0) {
-			return -1;
-		}
-		int start = description.start;
-		int end = description.end;
-
-		// 从end + 1开始，只要遇到一个跑不过的，就跑不过
-		for (int i = 1; i < len; i++) {
-			int position = (end + i) % len;
-			if (position == start) {
-				break;
-			}
-			surplus += array[position];
-			if (surplus < 0) {
-				return -1;
-			}
-		}
-		
-		if (end < start) {
-			for (int i = end + 1; i < start; i++) {
-				surplus += array[i];
-				if (surplus < 0) {
-					return -1;
-				}
-			}
-		} else {
-			for(int i = end + 1; i < len; i++) {
-				surplus += array[i];
-				if (surplus < 0) {
-					return -1;
-				}
-			}
-			for(int i = 0; i < start; i++) {
-				surplus += array[i];
-				if (surplus < 0) {
-					return -1;
-				}
+		// 已经确定我们有足够的油走完全程了，现在就来寻找一个起点，
+		// 这个起点是0,1...len-1中的一个；在这个环形中，选择不同
+		// 的起点出发，n-1之后的部分都是一样，不一样的只是n-1及之前
+		// 的部分，很容易理解，当这不一样的前缀部分剩余的油量越大时，
+		// 在后面一样的部分就走得越远，这时这部分的起点就是最优起点；
+		// 这时，问题抽象为寻找这个数组中以n-1结尾以那一点开始的一段
+		// 路程前缀的后最大；我们知道，去掉数组中和为负的前缀，使前缀
+		// 增大，去掉数组中和为正的前缀，使前缀减小，基于这一认识，我们
+		// 来实现剩下的部分;
+		//　这里强调的是这样一个思想：从出发点开始的某一段，剩余量越大，
+		// 越能跨国一些坑（靠自身的油不能走到下一点的点），极限情况就是
+		// 所有油都在起点
+		int start = 0;
+		int prefixSum = 0;
+		for(int i = 0; i < len; i++) {
+			int surplus = gas[i] - cost[i];
+			if (prefixSum + surplus < 0) {
+				start = i + 1;
+				prefixSum = 0;
+			} else {
+				prefixSum += surplus;
 			}
 		}
 		return start;
-	}
-
-	/**
-	 * 计算全局最大子序列
-	 * 
-	 * @param array
-	 *            存储着环的数组
-	 * @return
-	 */
-	private SubArrayDescription MaxSubSum(int[] array) {
-		int len = array.length;
-		int maxSum = -1;
-		int finalStart = -1;
-		int finalEnd = -1;
-		for (int i = 0; i < len; i++) {
-			int end = -1;
-			if (i == 0) {
-				end = len - 1;
-			} else {
-				end = i - 1;
-			}
-			SubArrayDescription description = MaxSubSum(array,
-					new SubArrayDescription(i, end, -1));
-			int surplus = description.surplus;
-			if (surplus == -1) {
-				continue;
-			} else {
-				if (surplus > maxSum) {
-					maxSum = surplus;
-					finalStart = i;
-					finalEnd = end;
-				}
-			}
-		}
-		return new SubArrayDescription(finalStart, finalEnd, maxSum);
-	}
-
-	/**
-	 * 得到以description.end结尾的最大子序列的描述
-	 * 
-	 * @param array
-	 *            存储着环的数组
-	 * @param description
-	 *            环的起点终点的描述
-	 * @return
-	 */
-	private SubArrayDescription MaxSubSum(int[] array,
-			SubArrayDescription description) {
-		int start = description.start;
-		int end = description.end;
-		// 小于0的元素不可能作为全局最大子序列的终点
-		if (array[end] < 0) {
-			return new SubArrayDescription(-1, -1, -1);
-		}
-
-		int len = array.length;
-
-		int newStart = start;
-		int sum = 0;
-		// 删除end的所有小于0的前缀
-		for (int i = 0; i < len; i++) {
-			// 当前元素在数组中的位置
-			int position = (start + i) % len;
-			int thisNum = array[position];
-			sum = thisNum + sum;
-			if (sum < 0) {
-				sum = 0;
-				newStart = (start + i + 1) % len;
-			}
-		}
-
-		return new SubArrayDescription(newStart, end, sum);
-	}
-
-	/**
-	 * 描述一个数组中的子序列
-	 * 
-	 * @author yuncong
-	 * 
-	 */
-	private static class SubArrayDescription {
-		// 子序列的起点
-		private int start;
-		// 子序列的终点
-		private int end;
-		// 子序列的和
-		private int surplus;
-
-		public SubArrayDescription(int start, int end, int surplus) {
-			super();
-			this.start = start;
-			this.end = end;
-			this.surplus = surplus;
-		}
-
-		public int getStart() {
-			return start;
-		}
-
-		public void setStart(int start) {
-			this.start = start;
-		}
-
-		public int getEnd() {
-			return end;
-		}
-
-		public void setEnd(int end) {
-			this.end = end;
-		}
-
-		public int getSurplus() {
-			return surplus;
-		}
-
-		public void setSurplus(int surplus) {
-			this.surplus = surplus;
-		}
-
 	}
 	
 	public static void main(String[] args) {
