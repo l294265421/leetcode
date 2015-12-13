@@ -54,10 +54,12 @@ public class LeetCode23 {
 	public static void main(String[] args) {
 		LeetCode23 leetCode23 = new LeetCode23();
 		ListNode listNode1 = new ListNode(0);
-		ListNode listNode2 = new ListNode(1);
-		ListNode[] lists = new ListNode[2];
+		ListNode listNode2 = new ListNode(3);
+		ListNode listNode3 = new ListNode(2);
+		ListNode[] lists = new ListNode[3];
 		lists[0] = listNode1;
 		lists[1] = listNode2;
+		lists[2] = listNode3;
 		System.out.println(leetCode23.mergeKLists(lists));
 	}
 }
