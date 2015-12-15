@@ -1,6 +1,10 @@
 package leetcode23;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import global.ListNode;
+import global.TreeNode;
 
 /**
  * 就像把几堆有序扑克排序，每次从堆顶中选出一张最小的，直到没有元素位置
@@ -8,6 +12,7 @@ import global.ListNode;
  *
  */
 public class LeetCode231 {
+	
 	public ListNode mergeKLists(ListNode[] lists) {
 		int size = lists.length;
 		if (size == 0) {
