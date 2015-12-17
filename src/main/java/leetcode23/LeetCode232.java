@@ -7,7 +7,7 @@ import global.ListNode;
 import global.TreeNode;
 
 /**
- * 就像把几堆有序扑克排序，每次从堆顶中选出一张最小的，直到没有元素位置
+ * 就像把几堆有序扑克排序，每次从所有堆顶中选出一张最小的，直到没有元素位置
  * @author yuncong
  *
  */
@@ -21,17 +21,49 @@ public class LeetCode232 {
 		if (size == 1) {
 			return lists[0];
 		}
-		
-		ListNode head = null;
-		ListNode cursor = null;
-		
-		int nullCount = 0;
-		for (ListNode listNode : lists) {
-			if (listNode == null) {
-				nullCount++;
+		 
+		// 1.把所有非null元素移到数组左边
+		int rightIndexOfNoneNull = -1;
+		for(int i = 0; i < size; i++) {
+			if (lists[i] != null) {
+				rightIndexOfNoneNull++;
+				ListNode temp = lists[i];
+				lists[i] = lists[rightIndexOfNoneNull];
+				lists[rightIndexOfNoneNull] = temp;
 			}
 		}
 		
+		if (rightIndexOfNoneNull == -1) {
+			return null;
+		}
+		if (rightIndexOfNoneNull == 0) {
+			return lists[0];
+		}
+		
+		// 2. 建小根堆
+		int heapLength = rightIndexOfNoneNull + 1;
+		buildMinHeap(lists, heapLength);
+		
+		ListNode preHead = new ListNode(-1);
+		ListNode cursor = preHead;
+		while (heapLength != 0) {
+			// 3. 获取堆顶元素的头元素， 插入排序队列最后
+			ListNode heapTop = lists[0];
+			lists[0] = lists[0].next;
+			heapTop.next = null;
+			cursor.next = heapTop;
+			cursor = cursor.next;
+			// 4. 如果堆顶元素变为null，就与堆的最后一个元素互换，然后下沉该元素，否则
+			// 直接下沉堆顶元素
+			if (lists[0] == null) {
+				lists[0] = lists[heapLength - 1];
+				heapLength--;
+				minHeapify(lists, 0, heapLength);
+			} else {
+				minHeapify(lists, 0, heapLength);
+			}
+		}
+		return preHead.next;
 	}
 	
 	/**
