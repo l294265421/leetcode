@@ -29,7 +29,7 @@ public class LeetCode1391 {
 
 	public static void main(String[] args) {
 		LeetCode1391 leetCode139 = new LeetCode1391();
-		Set<String> wordDict = new HashSet<>();
+		Set<String> wordDict = new HashSet<String>();
 		wordDict.add("leet");
 		wordDict.add("code");
 		System.out.println(leetCode139.wordBreak("leetcode", wordDict));

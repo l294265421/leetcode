@@ -22,16 +22,16 @@ public class LeetCode127 {
 			return distance;
 		}
 
-		List<List<String>> past = new ArrayList<>();
-		List<String> first = new ArrayList<>();
+		List<List<String>> past = new ArrayList<List<String>>();
+		List<String> first = new ArrayList<String>();
 		first.add(beginWord);
 		past.add(first);
 		int preElementsIndex = 0;
 		boolean isContinue = true;
 		
-		Set<String> rubbish = new HashSet<>();
+		Set<String> rubbish = new HashSet<String>();
 		while (isContinue) {
-			List<String> elements = new ArrayList<>();
+			List<String> elements = new ArrayList<String>();
 			List<String> preElements = past.get(preElementsIndex);
 			for (String word : wordList) {
 				if (rubbish.contains(word)) {

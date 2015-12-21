@@ -30,7 +30,7 @@ public class LeetCode133 {
 		// 广度优先遍历图
 		Queue<UndirectedGraphNode> helper = new LinkedList<UndirectedGraphNode>();
 		helper.add(node);
-		Set<UndirectedGraphNode> visited = new HashSet<>();
+		Set<UndirectedGraphNode> visited = new HashSet<UndirectedGraphNode>();
 		while (!helper.isEmpty()) {
 			UndirectedGraphNode root = helper.poll();
 			// 访问过的元素不再处理

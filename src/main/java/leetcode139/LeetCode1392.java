@@ -86,7 +86,7 @@ public class LeetCode1392 {
 
 	public static void main(String[] args) {
 		LeetCode1392 leetCode139 = new LeetCode1392();
-		Set<String> wordDict = new HashSet<>();
+		Set<String> wordDict = new HashSet<String>();
 		leetCode139.generateWordDict(wordDict, "test.txt");
 		String temp = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
 		System.out.println(leetCode139.wordBreak(temp, wordDict));

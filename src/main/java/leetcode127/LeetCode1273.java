@@ -13,11 +13,11 @@ import java.util.Set;
 public class LeetCode1273 {
 	public int ladderLength(String beginWord, String endWord,
 			Set<String> wordList) {
-		Queue<String> helper = new LinkedList<>();
+		Queue<String> helper = new LinkedList<String>();
 		helper.offer(beginWord);
 		wordList.remove(beginWord);
 		
-		Map<String, Integer> distances = new HashMap<>();
+		Map<String, Integer> distances = new HashMap<String, Integer>();
 		distances.put(beginWord, 1);
 		
 		wordList.add(endWord);

@@ -13,13 +13,13 @@ import java.util.List;
  */
 public class LeetCode131 {
 	public List<List<String>> partition(String s) {
-		List<List<String>> resultList = new LinkedList<>();
+		List<List<String>> resultList = new LinkedList<List<String>>();
 		int len = s.length();
 		if (len == 0) {
 			return resultList;
 		}
 		if (len == 1) {
-			List<String> result = new LinkedList<>();
+			List<String> result = new LinkedList<String>();
 			result.add(s);
 			resultList.add(result);
 			return resultList;
@@ -75,7 +75,7 @@ public class LeetCode131 {
 			return null;
 		}
 		
-		List<String> result = new LinkedList<>();
+		List<String> result = new LinkedList<String>();
 		int elementNum = seperatorArr.length;
 		int start = 0;
 		int end = -1;

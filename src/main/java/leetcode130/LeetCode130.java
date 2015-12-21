@@ -21,7 +21,7 @@ public class LeetCode130 {
 			return;
 		}
 
-		List<Set<Coordinate>> alreadyCheck = new LinkedList<>();
+		List<Set<Coordinate>> alreadyCheck = new LinkedList<Set<Coordinate>>();
 		for (int i = 0; i < rowNum; i++) {
 			for (int j = 0; j < columnNum; j++) {
 				if (board[i][j] == 'O') {
@@ -44,9 +44,9 @@ public class LeetCode130 {
 						isConvert = false;
 					}
 
-					Set<Coordinate> next = new HashSet<>();
+					Set<Coordinate> next = new HashSet<Coordinate>();
 					next.add(startPoint);
-					LinkedList<Coordinate> queue = new LinkedList<>();
+					LinkedList<Coordinate> queue = new LinkedList<Coordinate>();
 					queue.add(startPoint);
 					// 只需要向右和向下寻找，寻找那些已经确定是同一类元素的邻居
 					while (!queue.isEmpty()) {

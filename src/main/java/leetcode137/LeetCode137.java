@@ -8,7 +8,7 @@ public class LeetCode137 {
     	/**
     	 * 统计每一个数字出现的次数，然后找到那个出现次数不是３的数，返回即可
     	 */
-        Map<Integer, Integer> numTimePair = new HashMap<>();
+        Map<Integer, Integer> numTimePair = new HashMap<Integer, Integer>();
         for (int i : nums) {
 			if (numTimePair.containsKey(i)) {
 				numTimePair.put(i, numTimePair.get(i) + 1);
