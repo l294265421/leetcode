@@ -1,7 +1,15 @@
 package leetcode148;
 
 import global.ListNode;
-
+/**
+ * 快速排序：
+ * 1.以链表的第一个元素作为中心，并且所有与该元素相等的元素都放在
+ * 这个元素的后边
+ * 2.比中心元素小的元素单独形成一个新的链表
+ * 3.比中心元素大的元素单独形成一个新的链表
+ * @author yuncong
+ *
+ */
 public class LeetCode148 {
 	public ListNode sortList(ListNode head) {
 	    return sortListInternal(head).head;
@@ -17,6 +25,7 @@ public class LeetCode148 {
 	    pivotHead.next = null;
 	    ListNode pivotEnd = pivotHead;
 
+	    // so clever
 	    ListNode lessHead = null;
 	    ListNode lessTail = null;
 	    ListNode greaterHead = null;
