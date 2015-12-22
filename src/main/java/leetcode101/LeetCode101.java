@@ -1,5 +1,7 @@
 package leetcode101;
 
+import global.TreeNode;
+
 public class LeetCode101 {
     public boolean isSymmetric(TreeNode root) {
     	if (root == null) {

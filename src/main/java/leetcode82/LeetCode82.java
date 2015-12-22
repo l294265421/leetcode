@@ -1,5 +1,7 @@
 package leetcode82;
 
+import global.ListNode;
+
 public class LeetCode82 {
     public ListNode deleteDuplicates(ListNode head) {
 		if (head == null) {

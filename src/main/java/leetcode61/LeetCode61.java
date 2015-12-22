@@ -1,5 +1,7 @@
 package leetcode61;
 
+import global.ListNode;
+
 public class LeetCode61 {
     public ListNode rotateRight(ListNode head, int k) {
     	if (head == null) {

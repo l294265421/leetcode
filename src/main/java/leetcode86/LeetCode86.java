@@ -1,5 +1,7 @@
 package leetcode86;
 
+import global.ListNode;
+
 public class LeetCode86 {
 	public ListNode partition(ListNode head, int x) {
 		ListNode smallListNodeHead = null;

@@ -1,5 +1,7 @@
 package leetcode21;
 
+import global.ListNode;
+
 public class LeetCode21 {
 	/**
 	 * 合并两个有序链表

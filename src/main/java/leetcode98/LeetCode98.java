@@ -1,5 +1,7 @@
 package leetcode98;
 
+import global.TreeNode;
+
 import java.util.ArrayList;
 import java.util.List;
 

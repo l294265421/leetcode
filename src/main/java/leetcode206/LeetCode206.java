@@ -1,5 +1,7 @@
 package leetcode206;
 
+import global.ListNode;
+
 public class LeetCode206 {
 	public ListNode reverseList(ListNode head) {
 		// 当链表中有两个及以上元素时才有必要反转

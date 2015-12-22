@@ -1,5 +1,7 @@
 package leetcode92;
 
+import global.ListNode;
+
 public class LeetCode92 {
 	public ListNode reverseBetween(ListNode head, int m, int n) {
 		// 1 ≤ m ≤ n ≤ length

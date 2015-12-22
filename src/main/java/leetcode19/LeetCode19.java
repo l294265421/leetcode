@@ -1,5 +1,7 @@
 package leetcode19;
 
+import global.ListNode;
+
 public class LeetCode19 {
 	/**
 	 * 核心思想：

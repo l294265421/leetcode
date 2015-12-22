@@ -1,5 +1,7 @@
 package leetcode106;
 
+import global.TreeNode;
+
 /**
  * 核心思想：后根遍历树得到的根元素顺序刚好和先根遍历相反；其它的和105题一样
  * @author yuncong

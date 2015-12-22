@@ -1,5 +1,7 @@
 package leetcode24;
 
+import global.ListNode;
+
 public class LeetCode24 {
     public ListNode swapPairs(ListNode head) {
     	if (head == null || head.next == null) {
