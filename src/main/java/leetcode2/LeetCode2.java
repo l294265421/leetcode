@@ -1,5 +1,7 @@
 package leetcode2;
 
+import global.ListNode;
+
 /**
  * 不能处理大数
  * @author yuncong

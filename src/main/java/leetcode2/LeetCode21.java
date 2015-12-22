@@ -1,5 +1,7 @@
 package leetcode2;
 
+import global.ListNode;
+
 public class LeetCode21 {
 	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
     	// 引用l1中某个元素
