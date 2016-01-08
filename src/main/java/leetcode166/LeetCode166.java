@@ -17,29 +17,23 @@ public class LeetCode166 {
 		long n = num / den;
 		long reminder = num % den;
 		str.append(n);
-		if (reminder == 0)
+		if (reminder == 0){
 			return str.toString();
-		else
+		} else {
 			str.append('.');
+		}
 		// 余数一样，两余数（不包含后一个余数）之间产生的商就是循环部分
-		while (!map.containsKey(reminder) &&) {
+		do {
 			// 存储该余数和由它产生的商在str中的位置
 			map.put(reminder, str.length());
 			// 商
 			n = reminder * 10 / den;
+			str.append(n);
 			// 新的余数
 			reminder = reminder * 10 % den;
-			// 除尽
-			if (reminder == 0) {
-				str.append(n);
-				break;
-			}
+			// 包含余数，说明循环找到了；余数为0，说明除尽了
+		} while(!map.containsKey(reminder) && reminder != 0);
 			
-			// 旧的reminder为0时，新的reminder才为0
-			if (reminder != 0 || reminder == 0 && !map.containsKey(reminder)) {
-				str.append(n);
-			}
-		}
 		if (reminder != 0) {
 			str.insert(map.get(reminder), "(");
 			str.append(')');
