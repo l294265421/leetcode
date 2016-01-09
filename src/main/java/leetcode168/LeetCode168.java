@@ -24,7 +24,7 @@ public class LeetCode168 {
 			int remainder = n % 26;
 			if (remainder == 0) {
 				result--;
-				stack.add(26);
+				stack.push(26);
 			} else {
 				stack.push(remainder);;
 			}
@@ -40,6 +40,7 @@ public class LeetCode168 {
     
     public static void main(String[] args) {
 		LeetCode168 leetCode168 = new LeetCode168();
-		System.out.println(leetCode168.convertToTitle(52));
+		System.out.println(leetCode168.convertToTitle(701));
+		System.out.println(701 % 26);
 	}
 }
