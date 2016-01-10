@@ -7,7 +7,7 @@ package leetcode50;
  * @author yuncong
  *
  */
-public class LeetCode50 {
+public class LeetCode501 {
     public double myPow(double x, int n) {
         if (n == 0) {
 			return 1;
@@ -18,18 +18,37 @@ public class LeetCode50 {
 			isDaoshu = true;
 			n = -n;
 		}
-        double result = x;
-        for(int i = 1; i < n; i++) {
-        	result *= x;
-        }
+        
+        double result = myPow1(x, n);
+        
         if (isDaoshu) {
 			result = 1 / result;
 		}
         return result;
     }
     
+    /**
+     * n大于0
+     * @param x
+     * @param n
+     * @return
+     */
+    public double myPow1(double x, int n) {
+        if (n == 0) {
+			return 1;
+		}
+
+        double result = 0;
+        if (n % 2 == 0) {
+			result = myPow1(x * x, n / 2);
+		} else {
+			result = x * myPow1(x, n - 1);
+		}
+        return result;
+    }
+    
     public static void main(String[] args) {
-		LeetCode50 leetCode50 = new LeetCode50();
+		LeetCode501 leetCode50 = new LeetCode501();
 		System.out.println(leetCode50.myPow(-1.00000,
 				-2147483648));
 	}
