@@ -28,6 +28,14 @@ public class LeetCode207 {
 		return true;
 	}
 
+	/**
+	 * 思路：深度优先访问图，如果一个节点还没被访问结束，而且从该节点的后继元素出发又回到了
+	 * 这个节点，就说明图中有环。
+	 * @param graph
+	 * @param stat
+	 * @param node
+	 * @return
+	 */
 	private boolean hasCycle(List<Integer>[] graph, int[] stat, int node) {
 		if (stat[node] == VISITED)
 			return false;
@@ -45,6 +53,7 @@ public class LeetCode207 {
 
 		}
 
+		// visited
 		stat[node] = VISITED;
 		return false;
 	}
