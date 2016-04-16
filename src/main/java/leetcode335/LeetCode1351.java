@@ -1,4 +1,4 @@
-package leetcode135;
+package leetcode335;
 
 public class LeetCode1351 {
 	public boolean isSelfCrossing(int[] x) {
