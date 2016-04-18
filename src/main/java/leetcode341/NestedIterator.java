@@ -24,19 +24,30 @@ import java.util.List;
 public class NestedIterator implements Iterator<Integer> {
 	// 这其实是一个森林，森林里有nestedList.size()这么多棵树
 	private List<NestedInteger> nestedList;
-	// 从最上层到最下层路径上当前元素在所在层的索引位置，它唯一确定一个元素
-	private List<Integer> positions = new LinkedList<>();
+	LinkedList<List<NestedInteger>> ancestorsStack = new LinkedList<>();
+	// 与ancestorsStack对应，记录每个List<NestedInteger>在父list中的索引位置
+	LinkedList<Integer> positions = new LinkedList<Integer>();
+	// 下一个元素在父list中的索引位置
+	private int integerIndex = 0;
 	
     public NestedIterator(List<NestedInteger> nestedList) {
         this.nestedList = nestedList;
+        
+        if (nestedList.size() == 0) {
+			return;
+		}
+        
+        ancestorsStack.add(nestedList);
+        positions.add(-1);
         // 最左边的元素位置
         boolean findNext = false;
         NestedInteger cursor = nestedList.get(0);
         while (!findNext) {
         	if (cursor.isInteger()) {
-				positions.add(0);
 				findNext = true;
 			} else {
+				ancestorsStack.add(cursor.getList());
+				positions.add(0);
 				cursor = cursor.getList().get(0);
 			}
 		}
@@ -44,24 +55,45 @@ public class NestedIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        int size = positions.size();
-        LinkedList<List<NestedInteger>> stack = new LinkedList<>();
-        // 找到positions定为的的元素
-        List<NestedInteger> temp = this.nestedList;
-        stack.push(temp);
-        int i = 0;
-        for (; i < size - 1; i++) {
-			temp = temp.get(positions.get(i)).getList();
-			stack.push(temp);
+    	Integer result = ancestorsStack.peek().get(integerIndex).
+    			getInteger();
+    	
+    	if (integerIndex != ancestorsStack.peek().size() - 1) {
+			integerIndex++;
+			return result;
 		}
-        Integer result = temp.get(positions.get(i)).getInteger();
-        // 寻找下一个positions
-        // 在已有的List<NestedInteger>中寻找离下一个元素的最近的（寻找下一个元素在已有List<NestedInteger>中最近的祖先）
-        boolean findNext = false;
-        List<NestedInteger> targetList = stack.poll();
-        while (!findNext && stack.size() != 0) {
-			if (targetList.size() != positions.get(positions.size() - 1)) {
-				
+    	
+    	// 寻找ancestorsStack中下一个元素的最近祖先
+    	ancestorsStack.poll();
+    	int indexTemp = positions.poll();
+    	
+    	while (!ancestorsStack.isEmpty()) {
+			List<NestedInteger> temp = ancestorsStack.peek();
+			int size = temp.size();
+			if (indexTemp != size - 1) {
+				break;
+			} else {
+				ancestorsStack.poll();
+				indexTemp = positions.poll();
+			}
+			
+		}
+    	
+    	if (ancestorsStack.isEmpty()) {
+			return result;
+		}
+    	
+    	boolean findNext = false;
+    	int targetIndex = indexTemp + 1;
+        NestedInteger cursor = ancestorsStack.peek().get(targetIndex);
+        while (!findNext) {
+        	if (cursor.isInteger()) {
+        		integerIndex = 0;
+				findNext = true;
+			} else {
+				ancestorsStack.add(cursor.getList());
+				positions.add(0);
+				cursor = cursor.getList().get(0);
 			}
 		}
         
@@ -70,7 +102,7 @@ public class NestedIterator implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return positions.size() != 0;
+        return !ancestorsStack.isEmpty();
     }
 
 	@Override
@@ -78,6 +110,7 @@ public class NestedIterator implements Iterator<Integer> {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }
 
 /**
