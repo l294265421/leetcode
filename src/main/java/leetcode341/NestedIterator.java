@@ -51,7 +51,7 @@ public class NestedIterator implements Iterator<Integer> {
 					thisIndex = 0;
 					cursor = cursor.getList().get(thisIndex);
 				} else {
-					if (thisIndex < cursor.getList().size()) {
+					if (thisIndex < cursor.getList().size() - 1) {
 						// 往右走
 						thisIndex++;
 						cursor = cursor.getList().get(thisIndex);
@@ -59,7 +59,22 @@ public class NestedIterator implements Iterator<Integer> {
 						// 往上走
 						ancestorsStack.poll();
 						thisIndex = positions.poll();
-						
+					  	while (!ancestorsStack.isEmpty()) {
+							List<NestedInteger> temp = ancestorsStack.peek();
+							int size = temp.size();
+							if (thisIndex != size - 1) {
+								thisIndex++;
+								cursor = ancestorsStack.peek().get(thisIndex);
+								break;
+							} else {
+								ancestorsStack.poll();
+								thisIndex = positions.poll();
+							}
+							
+						}
+					  	if (ancestorsStack.isEmpty()) {
+							return;
+						}
 					}
 				}
 			}
