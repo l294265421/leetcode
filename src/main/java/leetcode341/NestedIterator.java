@@ -33,22 +33,35 @@ public class NestedIterator implements Iterator<Integer> {
     public NestedIterator(List<NestedInteger> nestedList) {
         this.nestedList = nestedList;
         
-        if (nestedList.size() == 0) {
-			return;
-		}
-        
         ancestorsStack.add(nestedList);
         positions.add(-1);
         // 最左边的元素位置
         boolean findNext = false;
         NestedInteger cursor = nestedList.get(0);
+        int thisIndex = 0;
         while (!findNext) {
         	if (cursor.isInteger()) {
+        		integerIndex = thisIndex;
 				findNext = true;
 			} else {
-				ancestorsStack.add(cursor.getList());
-				positions.add(0);
-				cursor = cursor.getList().get(0);
+				if (cursor.getList().size() != 0) {
+					// 往下走
+					ancestorsStack.add(cursor.getList());
+					positions.add(thisIndex);
+					thisIndex = 0;
+					cursor = cursor.getList().get(thisIndex);
+				} else {
+					if (thisIndex < cursor.getList().size()) {
+						// 往右走
+						thisIndex++;
+						cursor = cursor.getList().get(thisIndex);
+					} else {
+						// 往上走
+						ancestorsStack.poll();
+						thisIndex = positions.poll();
+						
+					}
+				}
 			}
 		}
     }
