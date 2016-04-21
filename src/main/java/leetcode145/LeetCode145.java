@@ -20,6 +20,7 @@ public class LeetCode145 {
 		}
 		while (!stack.isEmpty()) {
 			TreeNodeWithFlag top = stack.peek();
+			
 			// 注意，任意一个结点N，只要他有左孩子，则在N入栈之后，
 			// N的左孩子必然也跟着入栈了(这个体现在算法的后半部分)，
 			// 所以当我们拿到栈顶元素的时候，可以确信这个元素要么没有左孩子，
