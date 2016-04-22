@@ -1,4 +1,4 @@
-package leetcode208;
+package leetcode2081;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,14 +7,15 @@ public class TrieNode {
 	private Character key;
 	private Map<Character, TrieNode> children = new HashMap<>();
 	
-	// 用作根节点；孩子节点包含SENTINEL的节点是单词的词尾字符
-	public static final TrieNode SENTINEL = new TrieNode('$');
+	// 孩子节点包含SENTINEL的节点是单词的词尾字符
+	public static final TrieNode SENTINEL; 
 	
-	public TrieNode(Character key) {
-		if (key == null) {
-			throw new IllegalArgumentException("key can't be null");
-		}
-		this.key = key;
+	static {
+		SENTINEL = new TrieNode();
+		SENTINEL.setKey('$');
+	}
+	
+	public TrieNode() {
 	}
 
 	public Character getKey() {
@@ -43,10 +44,6 @@ public class TrieNode {
 	
 	public boolean containChild(TrieNode child) {
 		return children.containsValue(child);
-	}
-
-	public static void main(String[] args) {
-		 new TrieNode(null);
 	}
 
 	@Override
