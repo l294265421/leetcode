@@ -5,8 +5,7 @@ import global.TreeNode;
 import java.util.LinkedList;
 import java.util.List;
 /**
- * 先根遍历树的规则是这样的：对于遇到的每一个节点，先访问节点本身，然后是左子树根节点，然后是右子树根节点，
- * 最后是右边的兄弟节点。
+ * 先根遍历树的规则是这样的：对于遇到的每一个节点，先访问节点本身，然后是左子树根节点。
  * @author liyuncong
  *
  */
