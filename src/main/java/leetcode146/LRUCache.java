@@ -1,7 +1,6 @@
 package leetcode146;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Map;
  */
 public class LRUCache {
 	private MyList cache;
-	// 存的内容与cache一致，用于辅助cache，提供速度，实际上就是用空间换时间
+	// 存的内容与cache一致，用于辅助cache，提高速度，实际上就是用空间换时间
 	private Map<Integer, Node> helper;
 	private int capacity;
 
@@ -22,8 +21,8 @@ public class LRUCache {
 	}
 
 	/**
-	 * 如果存在，找到key对应的值，并把这个键值对放到队列的开头；
-	 * HashMap加链表可以在O(1)内完成(LinkedList删除一个元素的时间复杂度实际上是O(n))
+	 * 如果存在，找到key对应的值，并把这个键值对放到栈顶；
+	 * HashMap加链表可以在O(1)内完成；
 	 * 
 	 * @param key
 	 * @return
@@ -31,8 +30,7 @@ public class LRUCache {
 	public int get(int key) {
 		Node node = helper.get(key);
 		if (node != null) {
-			cache.remove(node);
-			cache.addFirst(node);
+			moveNodeToTop(node);
 			return node.getItem().getValue();
 		}
 
@@ -40,7 +38,8 @@ public class LRUCache {
 	}
 
 	/**
-	 * 当缓存中已经存在该key，就修改对应的值，如果没有，就插入； 插入键值对，当缓存满的时候，需要先删除缓存中最久没有使用的元素，然后再插入；
+	 * 当缓存中已经存在该key，就修改对应的值, 并把对应元素移到栈顶，如果没有，就插入； 
+	 * 插入键值对，当缓存满的时候，需要先删除缓存中最久没有使用的元素，然后再插入；
 	 * HashMap加链表可以在O(1)内完成
 	 * 
 	 * @param key
@@ -50,16 +49,37 @@ public class LRUCache {
 		Node oldNode = helper.get(key);
 		if (oldNode != null) {
 			oldNode.item.setValue(value);
+			moveNodeToTop(oldNode);
 			return;
 		}
+		
 		Pair newElement = new Pair(key, value);
 		Node newNode = new Node(null, newElement, null);
 		if (cache.size == capacity) {
-			Pair lastElement = cache.removeLast();
-			helper.remove(lastElement.getKey());
+			removeLast();
 		}
-		cache.addFirst(newNode);
-		helper.put(key, newNode);
+		addFirst(newNode);
+	}
+	
+	private void moveNodeToTop(Node node) {
+		cache.remove(node);
+		cache.addFirst(node);
+	}
+	
+	private void removeLast() {
+		Pair lastElement = cache.removeLast();
+		helper.remove(lastElement.getKey());
+	}
+	
+	private void addFirst(Node node) {
+		cache.addFirst(node);
+		helper.put(node.getItem().getKey(), node);
+	}
+	
+	@Override
+	public String toString() {
+		return "LRUCache [cache=" + cache + ", helper=" + helper
+				+ ", capacity=" + capacity + "]";
 	}
 
 	private static class Pair {
@@ -169,8 +189,6 @@ public class LRUCache {
 	            next.previous = prev;
 	            node.next = null;
 	        }			
-			
-	        node.item = null;
 	        
 	        size--;
 		}
@@ -196,6 +214,18 @@ public class LRUCache {
 			
 			return item;
 		}
+		
+		@Override
+		public String toString() {
+			String result = "";
+			Node cursor = first;
+			 while (cursor != null) {
+				result += cursor.toString();
+				cursor = cursor.next;
+			}
+			return result;
+		}
+		
 	}
 
 	private static class Node {
@@ -233,5 +263,23 @@ public class LRUCache {
 		public void setNext(Node next) {
 			this.next = next;
 		}
+
+		@Override
+		public String toString() {
+			return "Node [item=" + item + "]";
+		}
+	}
+	
+	
+	public static void main(String[] args) {
+		// 2,[set(2,1),set(1,1),set(2,3),set(4,1),get(1),get(2)]
+		// [-1,3]
+		LRUCache lruCache = new LRUCache(2);
+		lruCache.set(2, 1);
+		lruCache.set(1, 1);
+		lruCache.set(2, 3);
+		lruCache.set(4, 1);
+		System.out.println(lruCache.get(1));
+		System.out.println(lruCache.get(2));
 	}
 }
