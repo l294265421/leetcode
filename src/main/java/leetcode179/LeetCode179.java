@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * 任意组合，找出最大的；
- * 组合方式，元素下标的排列组合；
+ * 组合方式，元素的排列；
  */
 public class LeetCode179 {
     public String largestNumber(int[] nums) {
