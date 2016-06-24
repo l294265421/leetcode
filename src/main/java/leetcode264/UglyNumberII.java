@@ -55,6 +55,25 @@ public class UglyNumberII {
 		}
     }
     
+    public int strategy(int n) {
+        int[] a = new int[n];
+        a[0] = 1;
+        int p2 = 0, p3 = 0, p5 = 0;
+        for (int i = 1; i < n; i++) {
+            while (2 * a[p2] <= a[i - 1]) {
+                p2++;
+            }
+            while (3 * a[p3] <= a[i - 1]) {
+                p3++;
+            }
+            while (5 * a[p5] <= a[i - 1]) {
+                p5++;
+            }
+            a[i] = Math.min(2 * a[p2], Math.min(3 * a[p3], 5 * a[p5]));
+        }
+        return a[n - 1];
+	}
+    
     public static void main(String[] args) {
 		UglyNumberII uglyNumberII = new UglyNumberII();
 		System.out.println(uglyNumberII.nthUglyNumber(1352));
