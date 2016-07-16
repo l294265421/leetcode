@@ -6,10 +6,10 @@ package global;
  *
  */
 public class RandomListNode {
-	int label;
-	RandomListNode next, random;
+	public int label;
+	public RandomListNode next, random;
 
-	RandomListNode(int x) {
+	public RandomListNode(int x) {
 		this.label = x;
 	}
 
