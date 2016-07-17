@@ -50,14 +50,15 @@ public class GuessNumberHigherorLower {
 	 * @param guessNumber
 	 * @return 猜中的数
 	 */
-	public int strategy1(int low, int up, int guessNumber) {
+	public int strategy1(int low, int up) {
+		int guessNumber = computeGuessNumber(low, up);
 		int result = guess(guessNumber);
 		if (result == 0) {
 			return guessNumber;
 		} else if (result == -1) {
-			return strategy1(low, guessNumber - 1, (low + guessNumber - 1) / 2);
+			return strategy1(low, guessNumber - 1);
 		} else {
-			return strategy1(guessNumber + 1, up, (guessNumber + 1 + up) / 2);
+			return strategy1(guessNumber + 1, up);
 		}
 	}
 
