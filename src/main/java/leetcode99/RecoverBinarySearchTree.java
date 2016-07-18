@@ -36,18 +36,14 @@ public class RecoverBinarySearchTree {
 		}
 		TreeNode node1 = null;
 		TreeNode node2 = null;
-		for(int i = 0; i < nodes.size() - 1; i++) {
-			if (nodes.get(i).val > nodes.get(i + 1).val) {
-				if (node1 == null) {
-					node1 = nodes.get(i);
-				} else {
-					node2 = nodes.get(i);
-					break;
-				}
+		for(int i = 1; i < nodes.size(); i++) {
+			// 交换后，前面的数变大了,后面的数变小了；后面变小可能出现两次（非临近交换），这时，要用后面的一次覆盖前面的一次
+			if (node1 == null && nodes.get(i).val < nodes.get(i - 1).val) {
+				node1 = nodes.get(i - 1);
+			} 
+			if(node1 != null && nodes.get(i).val < nodes.get(i - 1).val){
+				node2 = nodes.get(i);
 			}
-		}
-		if (node2 == null) {
-			node2 = nodes.get(nodes.size() - 1);
 		}
 		
 		int temp = node1.val;
@@ -113,10 +109,10 @@ public class RecoverBinarySearchTree {
 	
 	public static void main(String[] args) {
 		RecoverBinarySearchTree recoverBinarySearchTree = new RecoverBinarySearchTree();
-		TreeNode root = new TreeNode(1);
-		TreeNode left = new TreeNode(2);
+		TreeNode root = new TreeNode(2);
+		TreeNode left = new TreeNode(3);
 		root.left = left;
-		TreeNode right = new TreeNode(3);
+		TreeNode right = new TreeNode(1);
 		root.right = right;
 		
 		recoverBinarySearchTree.recoverTree(root);
