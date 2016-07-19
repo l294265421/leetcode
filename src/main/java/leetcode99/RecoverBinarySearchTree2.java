@@ -32,12 +32,14 @@ public class RecoverBinarySearchTree2 {
 		// Start of "do some business",
 		// If first element has not been found, assign it to prevElement (refer
 		// to 6 in the example above)
+		// 交换后，前面的数变大了
 		if (firstElement == null && prevElement.val >= root.val) {
 			firstElement = prevElement;
 		}
 
 		// If first element is found, assign the second element to the root
 		// (refer to 2 in the example above)
+		// 交换后，后面的数，变小了
 		if (firstElement != null && prevElement.val >= root.val) {
 			secondElement = root;
 		}
@@ -50,10 +52,10 @@ public class RecoverBinarySearchTree2 {
 	
 	public static void main(String[] args) {
 		RecoverBinarySearchTree2 recoverBinarySearchTree = new RecoverBinarySearchTree2();
-		TreeNode root = new TreeNode(1);
-		TreeNode left = new TreeNode(2);
+		TreeNode root = new TreeNode(2);
+		TreeNode left = new TreeNode(3);
 		root.left = left;
-		TreeNode right = new TreeNode(3);
+		TreeNode right = new TreeNode(1);
 		root.right = right;
 		
 		recoverBinarySearchTree.recoverTree(root);
