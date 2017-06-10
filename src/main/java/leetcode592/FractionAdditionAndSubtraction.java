@@ -38,7 +38,7 @@ Note:
 public class FractionAdditionAndSubtraction {
 	/**
 	 *思路：
-	 *（1）没遇见一个就加一个（分数相加）
+	 *（1）每遇见一个就加一个（分数相加）
 	 *（2）每加一个就化简
 	 * @param expression
 	 * @return
@@ -47,18 +47,63 @@ public class FractionAdditionAndSubtraction {
     	if (expression == null || expression.length() == 0) {
 			return "";
 		}
-    	String last = "0";
+    	String last = "";
     	if (expression.charAt(1) == '-') {
 			expression = "+" + expression;
 		}
     	do {
-			
-		} while (condition);
-        return "";
+			int thisPartPlusIndex = expression.indexOf('+', 1);
+			int thisPartMinusIndex = expression.indexOf('-', 1);
+			String thisPart;
+			if (thisPartMinusIndex == -1 && thisPartPlusIndex == -1) {
+				thisPart = expression;
+				expression = "";
+			} else if (thisPartMinusIndex == -1) {
+				thisPart = expression.substring(0, thisPartPlusIndex);
+				expression = expression.substring(thisPartPlusIndex);
+			} else if (thisPartPlusIndex == -1) {
+				thisPart = expression.substring(0, thisPartMinusIndex);
+				expression = expression.substring(thisPartMinusIndex);
+			} else {
+				thisPart = expression.substring(0, Math.min(thisPartPlusIndex, thisPartMinusIndex));
+				expression = expression.substring(Math.min(thisPartPlusIndex, thisPartMinusIndex));
+			}
+			if ("".equals(last)) {
+				last = thisPart;
+			} else {
+				last = plus(last, thisPart);
+			}
+		} while (expression.length() != 0);
+        return last;
     }
     
     public String plus(String fraction1, String fraction2) {
-		
+    	String[] fraction1Parts = fraction1.split("/");
+    	int numerator1 = Integer.parseInt(fraction1Parts[0]);
+    	int denominator1 = Integer.parseInt(fraction1Parts[1]);
+    	String[] fraction2Parts = fraction2.split("/");
+    	int numerator2 = Integer.parseInt(fraction2Parts[0]);
+    	int demominator2 = Integer.parseInt(fraction2Parts[1]);
+    	int leastCommonMultiple = leastCommonMultiple(denominator1, demominator2);
+    	int multiple1 = leastCommonMultiple / denominator1;
+    	int multiple2 = leastCommonMultiple / demominator2;
+    	numerator1 *= multiple1;
+    	numerator2 *= multiple2;
+    	int resultNumerator = numerator1 + numerator2;
+    	if (resultNumerator == 0) {
+			return "0/1";
+		}
+    	int temp = resultNumerator;
+    	if (resultNumerator < 0) {
+			temp *= -1;
+		}
+    	int greatestCommonDivisior;
+    	if (resultNumerator > leastCommonMultiple) {
+			greatestCommonDivisior = greatestCommonDivisior(temp, leastCommonMultiple);
+		} else {
+			greatestCommonDivisior = greatestCommonDivisior(leastCommonMultiple, temp);
+		}
+    	return resultNumerator / greatestCommonDivisior + "/" + leastCommonMultiple / greatestCommonDivisior;
 	}
     
     /**
@@ -80,26 +125,17 @@ public class FractionAdditionAndSubtraction {
 所以有D<=d=f(a,b),结合上部分就有d<=D<=d,及D=d;
      * @return
      */
-    public int greatestCommonDivisior(int a, int b) {
-    	int value=1;
-        int max;
-        int min;
-        if(a==b){
-                return a;
-        }
-        if(a>b){
-                max=a;
-                min=b;
-        }else{
-                max=b;
-                min=a;
-        }
-        for(int i=2;i<min;i++){
-                if(0==max%i && 0==min%i){
-                        value=i;
-                }
-        }
-        return value;
+	public int greatestCommonDivisior(int a, int b) {
+		if (a < b) {
+			int temp;
+			temp = a;
+			a = b;
+			b = temp;
+		}
+		if (0 == b) {
+			return a;
+		}
+		return greatestCommonDivisior(b, a % b);
 	}
     
     /**
@@ -114,5 +150,11 @@ public class FractionAdditionAndSubtraction {
             }  
         }  
         return z;  
+	}
+    
+    public static void main(String[] args) {
+		FractionAdditionAndSubtraction fractionAdditionAndSubtraction = new FractionAdditionAndSubtraction();
+		String input = "-1/2+1/2+1/3";
+		System.out.println(fractionAdditionAndSubtraction.fractionAddition(input));
 	}
 }
