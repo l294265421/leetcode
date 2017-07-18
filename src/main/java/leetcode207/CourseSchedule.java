@@ -7,19 +7,24 @@ import java.util.List;
  * 
 There are a total of n courses you have to take, labeled from 0 to n - 1.
 
-Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+Some courses may have prerequisites, for example to take course 0 you 
+have to first take course 1, which is expressed as a pair: [0,1]
 
-Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+Given the total number of courses and a list of prerequisite pairs, 
+is it possible for you to finish all courses?
 
 For example:
 
 2, [[1,0]]
 
-There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.
+There are a total of 2 courses to take. To take course 1 you should 
+have finished course 0. So it is possible.
 
 2, [[1,0],[0,1]]
 
-There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
+There are a total of 2 courses to take. To take course 1 you should 
+have finished course 0, and to take course 0 you should also have 
+finished course 1. So it is impossible.
 
 Note:
 The input prerequisites is a graph represented by a list of edges, not adjacency matrices. 
@@ -27,11 +32,17 @@ Read more about how a graph is represented {@link https://www.khanacademy.org/co
  * @author liyuncong
  *
  */
-public class LeetCode207 {
+public class CourseSchedule {
 	static final int UNVISITED = 0;
 	static final int NOW_VISITING = 1;
 	static final int VISITED = 2;
 
+	/**
+	 * 
+	 * @param n 节点数目
+	 * @param ps 图的边表表示
+	 * @return 是否能修完课程
+	 */
 	public boolean canFinish(int n, int[][] ps) {
 		// 把图的边表表示转化为邻接表表示
 		List<Integer>[] graph = new List[n];
@@ -62,6 +73,9 @@ public class LeetCode207 {
 	 * @return 从节点node出发，存在环返回true，否则返回false
 	 */
 	private boolean hasCycle(List<Integer>[] graph, int[] stat, int node) {
+		// node被访问过，意味着node的邻接点也都被访问过了；
+		// 当遇到node被访问过，并且访问过程中，并没有回到node,
+		// 说明以node为根的子图不存在环。
 		if (stat[node] == VISITED)
 			return false;
 		if (stat[node] == NOW_VISITING)
@@ -74,7 +88,6 @@ public class LeetCode207 {
 			if (hasCycle(graph, stat, sub)) {
 				return true;
 			}
-
 		}
 
 		// visited
