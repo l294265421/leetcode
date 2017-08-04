@@ -28,60 +28,19 @@ For now, the judge is able to judge based on one instance of gray code sequence.
  * @author liyuncong
  *
  */
-public class LeetCode89 {
-    public List<Integer> grayCode(int n) {
-    	List<Integer> r = new ArrayList<Integer>();
-    	List<List<Integer>> result = classify(n);
-    	
-    	r.add(0);
-    	
-    	int preClass = 0;
-    	
-    	int nsquare = (int) Math.pow(2, n);
-    	for(int i = 1; i <= nsquare; i++) {
-    		int candidate1 = preClass - 1;
-    		int candidate2 = preClass + 1;
-    		// 优先选取candidate1，只有在candidate1没有元素了才去取
-    		// candidate2的元素
-    		if (candidate1 > 0 && result.get(candidate1).get(0) < 
-    				result.get(candidate1).size()) {
-				r.add(result.get(candidate1).get(result.get(candidate1).get(0)));
-				result.get(candidate1).set(0, result.get(candidate1).get(0) + 1);
-				preClass = candidate1;
-			} else if(candidate2 <= n && result.get(candidate2).get(0) < 
-    				result.get(candidate2).size()) {
-				r.add(result.get(candidate2).get(result.get(candidate2).get(0)));
-				result.get(candidate2).set(0, result.get(candidate2).get(0) + 1);
-				preClass = candidate2;
-			}
-    		
-    	}
-    	
-    	return r;
-    }
-	
+public class LeetCode891 {
 	/**
-	 * 给数字按包含1的个数分类
-	 * @param n 二进制位数
+	 * The idea is simple. G(i) = i^ (i/2).
+	 * @param n
 	 * @return
 	 */
-	public  List<List<Integer>> classify(int n) {
-		List<List<Integer>> result = new ArrayList<List<Integer>>();
-		for(int i = 0; i <= n; i++) {
-			List<Integer> element = new ArrayList<Integer>();
-			// 第一个元素用于保存该类中下一个被获取元素的位置
-			element.add(1);
-			result.add(element);
-		}
-		
-		int nsquare = (int) Math.pow(2, n);
-		for(int i = 0; i < nsquare; i++) {
-			String numBinaryStr = Integer.toBinaryString(i);
-			int countOne = countOne(numBinaryStr);
-			result.get(countOne).add(i);
-		}
-		return result;
-	}
+    public List<Integer> grayCode(int n) {
+    	List<Integer> result = new LinkedList<>();
+        for (int i = 0; i < 1<<n; i++) {
+        	result.add(i ^ i>>1);
+        }
+        return result;
+    }
 	
 	private static int countOne(String numBinaryStr) {
 		int result = 0;
@@ -101,7 +60,7 @@ public class LeetCode89 {
 			if (integer == 0) {
 				continue;
 			}
-			int countOne = countOne(integer.toBinaryString(integer));
+			int countOne = countOne(Integer.toBinaryString(integer));
 			if (Math.abs(countOne - lastIntOneCount) != 1) {
 				result = false;
 				break;
@@ -130,10 +89,11 @@ public class LeetCode89 {
 	}
 	
 	public static void main(String[] args) {
-		LeetCode89 leetCode89 = new LeetCode89();
-		int n = 20;
+		LeetCode891 leetCode89 = new LeetCode891();
+		int n = 50;
 		List<Integer> result = leetCode89.grayCode(n);
 		System.out.println(check(result));
+		
 	}
 }
 
