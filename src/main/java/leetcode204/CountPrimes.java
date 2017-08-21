@@ -52,4 +52,9 @@ public class CountPrimes {
         }
         return counter;
     }
+    
+    public static void main(String[] args) {
+		CountPrimes countPrimes = new CountPrimes();
+		System.out.println(countPrimes.countPrimes(12));
+	}
 }
