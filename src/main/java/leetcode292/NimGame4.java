@@ -1,9 +1,5 @@
 package leetcode292;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * 
  *  You are playing the following Nim Game with your friend: There is a heap of 
