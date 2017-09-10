@@ -27,48 +27,38 @@ The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]]
  *
  */
 public class NumberOfBoomerangs2 {
-	/**
-	 * 候选者个数是从points中任选3个的排列个数
-	 * @param points
-	 * @return
-	 */
-    public int numberOfBoomerangs(int[][] points) {
-        int result = 0;
-        Map<String, Boolean> compareResult = new HashMap<>();
-        for(int i = 0; i < points.length; i++) {
-        	for(int j = i + 1; j < points.length; j++) {
-        		for(int k = j + 1; k < points.length; k++) {
-        			result += numberOfBoomerangs(compareResult, points, i, j , k);
-        		}
-        	}
-        }
-        return result;
-    }
-    
-    public int numberOfBoomerangs(Map<String, Boolean> compareResult, int[][] points, int i, int j, int k) {
-		Double distanceOneTwo = distance(points, i, j);
-		Double distanceOneThree = distance(points, i, k);
-		Double distanceTwoThree = distance(points, k, j);
-		int result = 0;
-		if (Double.compare(distanceOneTwo, distanceOneThree) == 0) {
-			result += 2;
-		}
-		if (Double.compare(distanceTwoThree, distanceOneTwo) == 0) {
-			result += 2;
-		}
-		if (Double.compare(distanceOneThree, distanceTwoThree) == 0) {
-			result += 2;
-		}
-		return result;
+	public int numberOfBoomerangs(int[][] points) {
+	    int res = 0;
+
+	    Map<Integer, Integer> map = new HashMap<>();
+	    for(int i=0; i<points.length; i++) {
+	        for(int j=0; j<points.length; j++) {
+	            if(i == j)
+	                continue;
+	            
+	            int d = getDistance(points[i], points[j]);                
+	            map.put(d, map.getOrDefault(d, 0) + 1);
+	        }
+	        
+	        for(int val : map.values()) {
+	            res += val * (val-1);
+	        }            
+	        map.clear();
+	    }
+	    
+	    return res;
 	}
-    
-    private double distance(int[][] points, int i, int j) {
-		return Math.pow(points[i][0] - points[j][0], 2) + Math.pow(points[i][1] - points[j][1], 2);
+
+	private int getDistance(int[] a, int[] b) {
+	    int dx = a[0] - b[0];
+	    int dy = a[1] - b[1];
+	    
+	    return dx*dx + dy*dy;
 	}
     
     public static void main(String[] args) {
 		NumberOfBoomerangs2 numberOfBoomerangs = new NumberOfBoomerangs2();
-		int[][] points = new int[][] {{0,0},{1,0},{2,0}};
+		int[][] points = new int[][] {{-7,-4},{7,5},{3,5},{-4,2},{-1,-9},{-8,-3},{0,9},{-10,-4},{2,6}};
 		System.out.println(numberOfBoomerangs.numberOfBoomerangs(points));
 	}
 }
